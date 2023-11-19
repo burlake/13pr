@@ -18,12 +18,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true, // оно должно быть у каждого пользователя — обязательное поле
     validate: {
-      validator (v) {
-        return //.test(v);
+      validator(v) {
+        return /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(v);
       },
       message: 'Введите URL',
     },
   },
-}, {versionKey: false});
+}, { versionKey: false });
 
 module.exports = mongoose.model('user', userSchema);
