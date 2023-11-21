@@ -16,6 +16,4 @@ mongoose.connect(DB_URL, {
 
 app.use('/users', require('./routes/users'));
 
-app.listen(PORT, () => {
-  console.log('есть порт 3000');
-});
+app.listen(PORT);
