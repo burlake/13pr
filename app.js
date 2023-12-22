@@ -9,20 +9,23 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(express.static())
 
 mongoose.connect(DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-// app.use((req, res, next) => {
-//   req.user = {
-//     _id:'6585b075c024508fac5a6bac',
-//   };
-//   next();
-// });
+app.use((req, res, next) => {
+  req.user = {
+    _id: '6585b075c024508fac5a6bac' // вставьте сюда _id созданного в предыдущем пункте пользователя
+  };
+
+  next();
+});
 
 app.use('/users', require('./routes/users'));
+app.use('/cards', require('./routes/cards'));
 
 app.use(router);
 
