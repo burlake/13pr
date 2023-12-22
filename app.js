@@ -1,8 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const router = require('./routes/users');
 
-const { PORT = 3000, DB_URL = 'mongodb://localhost:27017/testdb' } = process.env;
+const { PORT = 3000, DB_URL = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 
 const app = express();
 
@@ -14,10 +15,17 @@ mongoose.connect(DB_URL, {
   useUnifiedTopology: true,
 });
 
+// app.use((req, res, next) => {
+//   req.user = {
+//     _id:'6585b075c024508fac5a6bac',
+//   };
+//   next();
+// });
+
 app.use('/users', require('./routes/users'));
+
+app.use(router);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
-
-
