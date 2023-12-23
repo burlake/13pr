@@ -8,6 +8,7 @@ module.exports.addCard = (req, res) => {
     .populate('owner')
     .then((data) => res.send(data))
     .catch(() => res.status(404).send({ message: 'Карточки с таким id нет'}));
+    //res.send(card);
   })
   .catch((err) => {
     if (err.name === 'ValidationError') {
@@ -19,25 +20,25 @@ module.exports.addCard = (req, res) => {
 };
 
 module.exports.getCards = (req, res) => {
-  Card.find ({})
+  Card.find ({}).sort({ createdAt: -1 })
   .populate(['owner', 'likes'])
-  .then((cards) => res.send (cards))
+  .then((cards) => res.status(201).send (cards))
   .catch(() => res.status(500).send({ message: 'На сервере произошла ошибка' }))
 };
 
 module.exports.deleteCard = (req, res) => {
   if (req.params.cardId.length === 24) {
-    Card.findByIdAndRemove(req.params.cardId)
+    Card.findByIdAndDelete(req.params.cardId) //TypeError: Card.findByIdAndRemove is not a function
     .then ((card) => {
       if (!card) {
-        res.status(404).send({ message: 'Карточки с таким id нет'});
+        res.status(404).send({ message: 'Карточки с таким id нет'}); //не работает
         return;
-      };
-      res.send({ message: 'Карточка удалена'});
+      }
+      res.send({ message: 'Карточка удалена'}); //не работает
     })
-    .catch (() => res.status(404).send({ message: 'Карточки с таким id нет'}));
+    .catch (() => res.status(404).send({ message: 'Карточки с таким id нет'})); //не работает
   } else {
-    res.status(400).send({ message: 'Неверный id карточки'})
+    res.status(400).send({ message: 'Неверный id карточки'}) //работает
   }
 };
 
